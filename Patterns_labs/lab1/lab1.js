@@ -94,13 +94,33 @@ class Driver {
     sitInCar(car) { car.takeDriver(this); }
 }
 
-class BusDriver extends Driver {
+class SingleDriver {
+    static driver = undefined;
+    constructor(category) {
+        if (new.target === SingleDriver) {
+            throw new TypeError("Cannot construct Abstract instances directly");
+        }
+        else if (SingleDriver.driver===undefined) {
+            this.category = category;
+            SingleDriver.driver = this;
+        } else {return SingleDriver.driver};
+        
+    }
+
+    getInstance() {
+        return SingleDriver.driver;
+    }
+
+    sitInCar(car) { car.takeDriver(this); }
+}
+
+class BusDriver extends SingleDriver {
     constructor(category) {
         super(category);
     }
 }
 
-class TaxiDriver extends Driver {
+class TaxiDriver extends SingleDriver {
     constructor(category) {
         super(category);
     }
