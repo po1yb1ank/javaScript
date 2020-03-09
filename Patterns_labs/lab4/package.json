@@ -1,5 +1,5 @@
 {
-  "name": "lab4",
+  "name": "lab41",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -9,13 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "electron": "^8.1.0",
-    "image-js": "^0.21.9"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.7",
-    "@babel/node": "^7.8.7",
-    "@babel/preset-env": "^7.8.7"
+    "electron": "^8.1.0"
   }
 }
