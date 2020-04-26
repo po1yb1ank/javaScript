@@ -2,7 +2,19 @@ const DEPHIS = '-',
     LONG_DEPHIS = '—',
     WRONGS_QUOTES = { 1: '“', 2: '”' },
     RIGHT_QUOTES = { 1: '«', 2: '»' },
-    TAB = ' ';
+    TAB = ' ',
+    NUMBERS = {
+        '0': 'ноль',
+        '1': 'один',
+        '2': 'два',
+        '3': 'три',
+        '4': 'четыре',
+        '5': 'пять',
+        '6': 'шесть',
+        '7': 'семь',
+        '8': 'восемь',
+        '9': 'девять',  
+    };
 
 
 class AbstractExpression {
@@ -18,6 +30,7 @@ class AbstractExpression {
         correct = Quotes.interpret(correct);
         correct = Tabs.interpret(correct);
         correct = Brackets.interpret(correct);
+        correct = Numbers.interpret(correct);
 
         this.context = correct;
     }
@@ -98,6 +111,20 @@ class Brackets extends AbstractExpression {
     }
 }
 
+class Numbers extends AbstractExpression {
+    static interpret(context) {
+        context = context.split('');
+        for (let i = 0; i < context.length; i++) {
+            if (context[i] in NUMBERS) {
+                let num = NUMBERS[context[i]];
+                context[i] = num;
+            }
+        }
+        context = context.join('');
+        return context
+    }
+}
+
 class NextString {
     static interpret(context) {
         context = context.split('');
@@ -112,7 +139,7 @@ class NextString {
     }
 }
 
-AbstractExpression.interpret('Сейчас слева были удалены лишние пробелы. А тут вместо - будет —. Сейчас будут исправлены “кавычки”. ' +
-    'Теперь уйдет лишняя табуляция. ( лишний пробелы ) , а также перед знаками препинания . Лишние знаки пере--' +
+AbstractExpression.interpret('Сейчас 597475957слева были удалены лишние пробелы. А тут вместо - будет —. Сейчас будут 2 исправлены “кавычки”. ' +
+    'Теперь уйдет 5 лишняя табуляция. ( лишний пробелы ) , а также перед знаками 45 препинания . Лишние знаки пере--' +
     'носа строки убраны');
 console.log(AbstractExpression.showContext());
