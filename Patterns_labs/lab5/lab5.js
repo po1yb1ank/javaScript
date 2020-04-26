@@ -47,7 +47,7 @@ class Deanery extends IObservable {
     NotifyObservers() {
         for (let observer in this.observers) {
             let department = this.observers[observer];
-            for (let teacher in department.teachers){
+            for (let teacher in department.teachers) {
                 let teach = department.teachers[teacher];
                 let concreteJournal = this.journals[teach.name];
                 let lastProgress = concreteJournal[concreteJournal.length - 1];
@@ -55,7 +55,7 @@ class Deanery extends IObservable {
                 let year = now.getFullYear();
                 let month = now.getMonth();
                 let day = now.getDate() - 7;
-                if (day < 0){
+                if (day < 0) {
                     month = now.getMonth() - 1;
                     if (month < 0) {
                         year = now.getFullYear() - 1;
@@ -65,7 +65,7 @@ class Deanery extends IObservable {
                 }
                 let checkDate = new Date(year, month, day);
                 if (lastProgress.date.getDate() < checkDate.getDate()) {
-                    this.observers[observer].Update(teach.name);
+                    this.observers[observer].Update(teach);
                 }
             }
         }
@@ -81,18 +81,21 @@ class Deanery extends IObservable {
 }
 
 class Department extends IObserver {
-    constructor(name, deanery){
+    constructor(name, deanery) {
         super();
         this.name = name;
         this.teachers = [];
+        this.deanery = deanery;
         deanery.RegisterObserver(this);
     }
 
-    Update(name){
-        console.log('Учитеь с кафедры ' + this.name + ' по имени ' + name + ' не заполняет журнал')
+    Update(teach) {
+        console.log('Учитеь с кафедры ' + this.name + ' по имени ' + teach.name + ' не заполняет журнал');
+        teach.createProgress(new Date());
+
     }
 
-    addTeacher(teacher){
+    addTeacher(teacher) {
         this.teachers.push(teacher);
     }
 }
@@ -104,7 +107,7 @@ class Progress { // успеваемость
 }
 
 class Teacher {
-    constructor(department, name, deanery){
+    constructor(department, name, deanery) {
         this.name = name;
         this.department = department;
         this.deanery = deanery;
@@ -112,9 +115,10 @@ class Teacher {
         department.addTeacher(this);
     }
 
-    createProgress(date){
+    createProgress(date) {
         let journal = new Progress(date);
         this.deanery.addJournal(this.name, journal);
+        console.log("Учитель с фимилией " + this.name + " добавил успеваемость с датой " + date);
     }
 }
 
@@ -128,7 +132,7 @@ let POFESSOR_KOLDAEV = new Teacher(IPOVS, "POFESSOR_KOLDAEV", deanery);
 let Morozova = new Teacher(OF, "Morozova", deanery);
 let Hahalin = new Teacher(VM_1, "Hahalin", deanery);
 
-for (let i=1; i<18; i+=7){
+for (let i = 1; i < 18; i += 7) {
     Kozhan.createProgress(new Date(2020, 3, i));
     Ilushechkin.createProgress(new Date(2020, 3, i));
     POFESSOR_KOLDAEV.createProgress(new Date(2020, 3, i));
@@ -140,4 +144,3 @@ Kozhan.createProgress(new Date(2020, 3, 25));
 POFESSOR_KOLDAEV.createProgress(new Date(2020, 3, 25));
 Morozova.createProgress(new Date(2020, 3, 25));
 deanery.NotifyObservers();
-
