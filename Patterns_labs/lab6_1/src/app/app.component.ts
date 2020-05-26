@@ -25,4 +25,17 @@ export class AppComponent {
             return;
         this.items.push(new Item(text, price));
     }
+
+    deleteItem(text: string, price: number): void {
+        let count = 0;
+        if(text==null || text.trim()=="" || price==null)
+            return;
+        for (let item in this.items){
+            if (this.items[item].purchase == text && this.items[item].price){
+                this.items.splice(count, 1);
+                return
+            }
+            count += 1;
+        }
+    }
 }

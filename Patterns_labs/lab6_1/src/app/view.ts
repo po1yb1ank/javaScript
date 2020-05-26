@@ -32,6 +32,7 @@ export let template = `<div class="page-header">
             <td>{{item.purchase}}</td>
             <td>{{item.price}}</td>
             <td><input type="checkbox" [(ngModel)]="item.done" /></td>
+            <td><button class="btn btn-default" (click)="deleteItem(item.purchase, item.price)">Удалить</button></td>
         </tr>
     </tbody>
 </table>
