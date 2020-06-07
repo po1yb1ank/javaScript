@@ -11,6 +11,7 @@ class AppUI {
         function createWindow() {
             this.img = nativeImage.createFromPath(pic);
             let size = this.img.getSize();
+	    //здесь мы оборачиваем вызов метода, реализуя паттерн proxy
             this.win = new BrowserWindow({
                 width: size.width,
                 height: size.height
@@ -34,14 +35,12 @@ class AppUI {
         }
         )
     }
-
     changeBGImage(img){
         document.addEventListener('mousedown', function(event) {
             if (event.button == 2) {
             document.body.style.backgroundImage = "url(" + img + ")";
     }});
     }
-
     changeBGImage1 = (img) => {
         document.addEventListener('mousedown', function(event) {
             if (event.button == 2) {
@@ -49,8 +48,6 @@ class AppUI {
     }});
     }
 }
-
-
 exports.ui=new AppUI();
 let ui1=new AppUI()
-ui1.drawWindow("img1.jpg");
+ui1.drawWindow("img.jpg");
